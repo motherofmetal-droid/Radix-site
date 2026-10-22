@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radix — Projeto de loteamento e urbanismo com saída para Dynamo e pyRevit</title>
+<meta name="description" content="Radix gera o estudo de loteamento e urbanismo com quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com normas brasileiras e exporta pranchas e arquivos .dyn para Dynamo e pyRevit.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://motherofmetal-droid.github.io/Radix-site/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="theme-color" content="#2d5a27">
+
+<!-- Verificação dos buscadores: descomente e cole o código que cada painel fornecer. -->
+<!-- <meta name="google-site-verification" content="COLE_AQUI"> -->
+<!-- <meta name="msvalidate.01" content="COLE_AQUI"> -->
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Radix">
+<meta property="og:title" content="Radix — Projeto de loteamento e urbanismo">
+<meta property="og:description" content="Estudo de loteamento com conferência de parâmetros urbanísticos, pranchas e saída para Dynamo e pyRevit.">
+<meta property="og:url" content="https://motherofmetal-droid.github.io/Radix-site/">
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Radix",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Web",
+  "inLanguage": ["pt-BR", "en", "es"],
+  "description": "Aplicativo web para estudo de loteamento e urbanismo, com conferência de parâmetros, pranchas e exportação para Dynamo e pyRevit.",
+  "url": "https://motherofmetal-droid.github.io/Radix-site/"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "O Radix substitui o responsável técnico?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Não. O Radix gera um estudo preliminar e aponta conformidades e divergências. A conferência, a assinatura e a responsabilidade técnica continuam com o profissional habilitado."}},
+    {"@type": "Question", "name": "Quais arquivos o Radix lê?",
+     "acceptedAnswer": {"@type": "Answer", "text": "DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura. O limite é de 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida; o aplicativo orienta a exportar para DXF ou DWFx."}},
+    {"@type": "Question", "name": "O que o Radix entrega?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Quadros de áreas, quantitativos e estimativa paramétrica de custos, pranchas em formato A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit."}},
+    {"@type": "Question", "name": "Funciona fora do Brasil?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Sim, com ressalvas. O usuário informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras."}}
+  ]
+}
+</script>
+
+<style>
+  :root{--verde:#2d5a27;--verde-esc:#1f3f1b;--areia:#f6f3ec;--tinta:#1d2a1b;--cinza:#4b5563;--linha:#d9d5c8;--branco:#fff}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tinta);background:var(--branco);line-height:1.6}
+  a{color:var(--verde)}
+  .pular{position:absolute;left:-999px;top:0;background:var(--verde);color:#fff;padding:.6rem 1rem;z-index:10}
+  .pular:focus{left:0}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
+  header.topo{border-bottom:1px solid var(--linha);background:var(--branco);position:sticky;top:0;z-index:5}
+  .topo .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:1rem}
+  .marca{font-weight:800;font-size:1.3rem;color:var(--verde);text-decoration:none;letter-spacing:.5px}
+  nav a{margin-left:1.1rem;text-decoration:none;color:var(--cinza);font-size:.95rem}
+  nav a:hover{color:var(--verde)}
+  .btn{display:inline-block;background:var(--verde);color:#fff!important;padding:.8rem 1.4rem;border-radius:8px;text-decoration:none;font-weight:600;border:2px solid var(--verde)}
+  .btn:hover{background:var(--verde-esc);border-color:var(--verde-esc)}
+  .btn.sec{background:transparent;color:var(--verde)!important}
+  .btn.sec:hover{background:var(--areia)}
+  .hero{background:var(--areia);padding:3.5rem 0}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center}
+  h1{font-size:2.2rem;line-height:1.2;margin:0 0 1rem}
+  .lead{font-size:1.1rem;color:var(--cinza);margin:0 0 1.5rem}
+  .acoes{display:flex;gap:.8rem;flex-wrap:wrap}
+  section{padding:3rem 0}
+  h2{font-size:1.6rem;margin:0 0 1.5rem}
+  .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem}
+  .card{border:1px solid var(--linha);border-radius:10px;padding:1.2rem;background:var(--branco)}
+  .card h3{margin:.2rem 0 .5rem;font-size:1.05rem;color:var(--verde)}
+  .card p{margin:0;color:var(--cinza);font-size:.95rem}
+  .passos{counter-reset:p;list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.1rem}
+  .passos li{counter-increment:p;border-left:4px solid var(--verde);padding:.2rem 0 .2rem 1rem}
+  .passos li::before{content:"Passo " counter(p);display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--verde);font-weight:700}
+  .alt{background:var(--areia)}
+  .aviso{border:1px solid #c9b46a;background:#fbf5df;border-radius:10px;padding:1rem 1.2rem;color:#4a3d0e}
+  ul.ok{padding-left:1.1rem;margin:0}
+  ul.ok li{margin:.3rem 0}
+  details{border:1px solid var(--linha);border-radius:8px;padding:.8rem 1rem;margin-bottom:.7rem;background:var(--branco)}
+  summary{cursor:pointer;font-weight:600}
+  details p{margin:.6rem 0 0;color:var(--cinza)}
+  footer{background:var(--verde-esc);color:#e5eadf;padding:2rem 0;font-size:.9rem}
+  footer a{color:#fff}
+  :focus-visible{outline:3px solid #e0a800;outline-offset:2px}
+  @media (max-width:760px){.hero .wrap{grid-template-columns:1fr}h1{font-size:1.8rem}nav{display:none}}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="#">RADIX</a>
+    <nav aria-label="Principal">
+      <a href="#recursos">Recursos</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#limites">Limites</a>
+      <a href="#perguntas">Perguntas</a>
+    </nav>
+    <a class="btn" href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a>
+  </div>
+</header>
+
+<main id="conteudo">
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1>Estudo de loteamento e urbanismo, do terreno às pranchas.</h1>
+        <p class="lead">O Radix organiza quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com as normas brasileiras de referência e exporta para Dynamo e pyRevit.</p>
+        <div class="acoes">
+          <a class="btn" href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a>
+          <a class="btn sec" href="#como-funciona">Ver como funciona</a>
+        </div>
+      </div>
+      <svg role="img" aria-label="Esquema de uma gleba dividida em quadras e lotes, com uma via coletora ao centro" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
+        <rect x="6" y="6" width="308" height="228" rx="8" fill="#fff" stroke="#2d5a27" stroke-width="2"/>
+        <rect x="14" y="108" width="292" height="24" fill="#d9d5c8"/>
+        <g fill="#e8f1e4" stroke="#2d5a27" stroke-width="1">
+          <rect x="18" y="16" width="40" height="40"/><rect x="62" y="16" width="40" height="40"/><rect x="106" y="16" width="40" height="40"/><rect x="150" y="16" width="40" height="40"/><rect x="194" y="16" width="40" height="40"/><rect x="238" y="16" width="40" height="40"/>
+          <rect x="18" y="62" width="40" height="40"/><rect x="62" y="62" width="40" height="40"/><rect x="106" y="62" width="40" height="40"/><rect x="150" y="62" width="40" height="40"/><rect x="194" y="62" width="40" height="40"/><rect x="238" y="62" width="40" height="40"/>
+          <rect x="18" y="138" width="40" height="40"/><rect x="62" y="138" width="40" height="40"/><rect x="106" y="138" width="40" height="40"/><rect x="150" y="138" width="40" height="40"/><rect x="194" y="138" width="40" height="40"/><rect x="238" y="138" width="40" height="40"/>
+        </g>
+        <rect x="18" y="184" width="260" height="40" fill="#cfe3c9" stroke="#2d5a27" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="148" y="208" font-size="11" text-anchor="middle" fill="#1f3f1b" font-family="system-ui,sans-serif">área verde</text>
+        <text x="160" y="124" font-size="10" text-anchor="middle" fill="#4b5563" font-family="system-ui,sans-serif">via coletora</text>
+      </svg>
+    </div>
+  </div>
+
+  <section id="recursos">
+    <div class="wrap">
+      <h2>O que o Radix faz</h2>
+      <div class="grade">
+        <div class="card"><h3>Implantação</h3><p>Distribui quadras, lotes, vias e áreas públicas a partir da gleba e dos parâmetros do projeto.</p></div>
+        <div class="card"><h3>Conferência de parâmetros</h3><p>Compara declividades, larguras de vias e calçadas, acessibilidade e áreas públicas com as normas de referência e aponta divergências.</p></div>
+        <div class="card"><h3>Infraestrutura e arborização</h3><p>Dimensiona drenagem, iluminação e arborização, com quantitativos e estimativa paramétrica de custos.</p></div>
+        <div class="card"><h3>Pranchas</h3><p>Gera pranchas em A0 ou A1 com implantação, cortes, quadro de áreas e carimbo.</p></div>
+        <div class="card"><h3>Dynamo e pyRevit</h3><p>Exporta um arquivo .dyn e um pacote para pyRevit, para continuar o trabalho no Revit.</p></div>
+        <div class="card"><h3>Plantas da região</h3><p>Importa a lista de plantas nativas em CSV. O Radix não inventa espécies: usa apenas o que você envia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="alt">
+    <div class="wrap">
+      <h2>Como funciona</h2>
+      <ol class="passos">
+        <li><strong>Envie a gleba.</strong><br>DXF, DWFx, lista de vértices ou documento da prefeitura. Você confirma o contorno e a escala.</li>
+        <li><strong>Informe os parâmetros.</strong><br>Cidade, declividade, formato da prancha e, fora do Brasil, a chuva de projeto.</li>
+        <li><strong>Revise os resultados.</strong><br>Quadros, quantitativos, avisos de conformidade e a estimativa de custos.</li>
+        <li><strong>Exporte.</strong><br>Pranchas, arquivo .dyn e pacote pyRevit.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="normas">
+    <div class="wrap">
+      <h2>Normas de referência</h2>
+      <p>O aplicativo usa como referência, entre outras, a Lei Federal 6.766/1979, a ABNT NBR 9050, a NBR 16636, a NBR 6492 e a bibliografia de Juan Luis Mascaró. Em projetos em São Paulo, aplica também o Decreto Municipal 59.671/2020. Cada resultado indica a regra usada, e o profissional confere a versão vigente.</p>
+      <p>Quando há conflito entre a bibliografia e a norma, o Radix adota a norma como critério de conformidade e mostra o valor da bibliografia apenas como informação.</p>
+    </div>
+  </section>
+
+  <section id="limites" class="alt">
+    <div class="wrap">
+      <h2>Limites que você precisa conhecer</h2>
+      <div class="aviso">
+        <ul class="ok">
+          <li>O Radix gera um <strong>estudo preliminar</strong>. Não substitui o responsável técnico, a aprovação em órgão público nem o projeto executivo.</li>
+          <li>Os custos são <strong>estimativa paramétrica</strong>, não orçamento.</li>
+          <li>Arquivos <strong>DWG, DWF clássico e RVT</strong> não têm a geometria lida. O aplicativo orienta a exportar para DXF ou DWFx.</li>
+          <li>O limite é de <strong>45 MB por arquivo</strong>.</li>
+          <li>O arquivo .dyn e o pacote pyRevit devem ser testados em uma <strong>cópia</strong> do projeto antes do uso.</li>
+          <li>A gleba é tratada por um retângulo equivalente. Quando ela se afasta muito de um retângulo, o aplicativo avisa.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="perguntas">
+    <div class="wrap">
+      <h2>Perguntas frequentes</h2>
+      <details><summary>O Radix substitui o responsável técnico?</summary><p>Não. O Radix gera um estudo preliminar e aponta conformidades e divergências. A conferência, a assinatura e a responsabilidade técnica continuam com o profissional habilitado.</p></details>
+      <details><summary>Quais arquivos o Radix lê?</summary><p>DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura, até 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida.</p></details>
+      <details><summary>O que o Radix entrega?</summary><p>Quadros de áreas, quantitativos, estimativa paramétrica de custos, pranchas A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit.</p></details>
+      <details><summary>Funciona fora do Brasil?</summary><p>Sim, com ressalvas. Você informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras.</p></details>
+      <details><summary>Em quais idiomas?</summary><p>A interface está disponível em vários idiomas. Termos de uso, relatórios e normas permanecem em português.</p></details>
+      <details><summary>Quanto custa?</summary><p>Os valores e as condições do período de teste são exibidos no aplicativo, antes de qualquer cobrança.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>Radix</strong> — estudo de loteamento e urbanismo.</p>
+    <p>Este site é apenas informativo: não coleta dados, não usa cookies nem rastreadores. O cadastro e o tratamento de dados ocorrem no aplicativo, conforme os termos e a política de privacidade exibidos lá.</p>
+    <p><a href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a></p>
+  </div>
+</footer>
+</body>
+</html>
