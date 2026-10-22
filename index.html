@@ -5,10 +5,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Radix — Projeto de loteamento e urbanismo com saída para Dynamo e pyRevit</title>
-<meta name="description" content="Radix gera o estudo de loteamento e urbanismo com quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com normas brasileiras e exporta pranchas e arquivos .dyn para Dynamo e pyRevit.">
+<meta name="description" content="Radix gera o estudo de loteamento e urbanismo com quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com normas brasileiras e exporta pranchas e arquivos .dyn para Dynamo e pyRevit (Revit 2026).">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://motherofmetal-droid.github.io/Radix-site/">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d5a27'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='%23ffffff'%3ER%3C/text%3E%3C/svg%3E">
 <meta name="theme-color" content="#2d5a27">
 
 <!-- Verificação dos buscadores: descomente e cole o código que cada painel fornecer. -->
@@ -30,7 +30,7 @@
   "name": "Radix",
   "applicationCategory": "DesignApplication",
   "operatingSystem": "Web",
-  "inLanguage": ["pt-BR", "en", "es"],
+  "inLanguage": ["pt-BR", "en", "es", "fr", "de", "it", "ar", "zh", "ja", "ru"],
   "description": "Aplicativo web para estudo de loteamento e urbanismo, com conferência de parâmetros, pranchas e exportação para Dynamo e pyRevit.",
   "url": "https://motherofmetal-droid.github.io/Radix-site/"
 }
@@ -46,6 +46,8 @@
      "acceptedAnswer": {"@type": "Answer", "text": "DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura. O limite é de 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida; o aplicativo orienta a exportar para DXF ou DWFx."}},
     {"@type": "Question", "name": "O que o Radix entrega?",
      "acceptedAnswer": {"@type": "Answer", "text": "Quadros de áreas, quantitativos e estimativa paramétrica de custos, pranchas em formato A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit."}},
+    {"@type": "Question", "name": "Preciso instalar o Dynamo?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Não. A partir do Revit 2026 o Dynamo já faz parte do Revit. Ele fica na aba Gerenciar, painel Programação visual."}},
     {"@type": "Question", "name": "Funciona fora do Brasil?",
      "acceptedAnswer": {"@type": "Answer", "text": "Sim, com ressalvas. O usuário informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras."}}
   ]
@@ -77,6 +79,7 @@
   .acoes{display:flex;gap:.8rem;flex-wrap:wrap}
   section{padding:3rem 0}
   h2{font-size:1.6rem;margin:0 0 1.5rem}
+  h3.sub{font-size:1.15rem;margin:1.5rem 0 .6rem;color:var(--verde)}
   .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem}
   .card{border:1px solid var(--linha);border-radius:10px;padding:1.2rem;background:var(--branco)}
   .card h3{margin:.2rem 0 .5rem;font-size:1.05rem;color:var(--verde)}
@@ -86,8 +89,12 @@
   .passos li::before{content:"Passo " counter(p);display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--verde);font-weight:700}
   .alt{background:var(--areia)}
   .aviso{border:1px solid #c9b46a;background:#fbf5df;border-radius:10px;padding:1rem 1.2rem;color:#4a3d0e}
+  .info{border:1px solid #9bc19a;background:#eaf4e8;border-radius:10px;padding:1rem 1.2rem;color:#1f3f1b;margin-bottom:1rem}
   ul.ok{padding-left:1.1rem;margin:0}
   ul.ok li{margin:.3rem 0}
+  ol.lista{padding-left:1.3rem;margin:0}
+  ol.lista li{margin:.4rem 0}
+  .links{display:flex;gap:.7rem;flex-wrap:wrap;margin:.8rem 0 0}
   details{border:1px solid var(--linha);border-radius:8px;padding:.8rem 1rem;margin-bottom:.7rem;background:var(--branco)}
   summary{cursor:pointer;font-weight:600}
   details p{margin:.6rem 0 0;color:var(--cinza)}
@@ -107,6 +114,7 @@
     <nav aria-label="Principal">
       <a href="#recursos">Recursos</a>
       <a href="#como-funciona">Como funciona</a>
+      <a href="#revit">Revit 2026</a>
       <a href="#limites">Limites</a>
       <a href="#perguntas">Perguntas</a>
     </nav>
@@ -119,7 +127,7 @@
     <div class="wrap">
       <div>
         <h1>Estudo de loteamento e urbanismo, do terreno às pranchas.</h1>
-        <p class="lead">O Radix organiza quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com as normas brasileiras de referência e exporta para Dynamo e pyRevit.</p>
+        <p class="lead">O Radix organiza quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com as normas brasileiras de referência e exporta para Dynamo e pyRevit. Aplicativo pago, usado online, com período de teste.</p>
         <div class="acoes">
           <a class="btn" href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a>
           <a class="btn sec" href="#como-funciona">Ver como funciona</a>
@@ -148,8 +156,10 @@
         <div class="card"><h3>Conferência de parâmetros</h3><p>Compara declividades, larguras de vias e calçadas, acessibilidade e áreas públicas com as normas de referência e aponta divergências.</p></div>
         <div class="card"><h3>Infraestrutura e arborização</h3><p>Dimensiona drenagem, iluminação e arborização, com quantitativos e estimativa paramétrica de custos.</p></div>
         <div class="card"><h3>Pranchas</h3><p>Gera pranchas em A0 ou A1 com implantação, cortes, quadro de áreas e carimbo.</p></div>
-        <div class="card"><h3>Dynamo e pyRevit</h3><p>Exporta um arquivo .dyn e um pacote para pyRevit, para continuar o trabalho no Revit.</p></div>
+        <div class="card"><h3>Dynamo e pyRevit</h3><p>Exporta um arquivo .dyn e um pacote para pyRevit, para continuar o trabalho no Revit 2026.</p></div>
         <div class="card"><h3>Plantas da região</h3><p>Importa a lista de plantas nativas em CSV. O Radix não inventa espécies: usa apenas o que você envia.</p></div>
+        <div class="card"><h3>Leis e normas novas</h3><p>Você cita uma lei ou norma; o Radix consulta fontes oficiais e responde com fundamentação. A incorporação só ocorre após aprovação da responsável técnica.</p></div>
+        <div class="card"><h3>Acessível e multilíngue</h3><p>Interface em 10 idiomas, navegação por teclado, leitor de tela, contraste adequado e opção de pausar as animações.</p></div>
       </div>
     </div>
   </section>
@@ -166,15 +176,54 @@
     </div>
   </section>
 
-  <section id="normas">
+  <section id="revit">
+    <div class="wrap">
+      <h2>Revit 2026: instalar o pyRevit e abrir o arquivo no Dynamo</h2>
+      <div class="aviso" role="note"><strong>Versão do Revit:</strong> use o Autodesk Revit 2026. Teste sempre em uma <strong>cópia</strong> do projeto.</div>
+      <div class="info" role="note" style="margin-top:1rem"><strong>O Dynamo não precisa ser instalado.</strong> A partir do Revit 2026 ele já faz parte do Revit. Fica na aba <em>Gerenciar</em>, painel <em>Programação visual</em>.</div>
+
+      <h3 class="sub">Em quais equipamentos funciona</h3>
+      <ul class="ok">
+        <li><strong>Tablets Windows (Surface Pro):</strong> funciona, contanto que seja um tablet com o sistema operacional Windows completo e que atenda aos requisitos de hardware (processador e memória RAM) para rodar o Autodesk Revit.</li>
+        <li><strong>Computadores e notebooks Windows:</strong> nativamente. Basta baixar o instalador oficial do pyRevit no GitHub e executá-lo no computador onde o Revit já está instalado.</li>
+      </ul>
+
+      <h3 class="sub">1. Instalar o pyRevit</h3>
+      <ol class="lista">
+        <li>Confirme que o Autodesk Revit 2026 já está instalado no computador Windows e feche o Revit.</li>
+        <li>Abra a página de download do pyRevit, entre na versão mais recente (<em>Latest</em>) e baixe o instalador (arquivo .exe) em <em>Assets</em>.</li>
+        <li>Execute o instalador e siga o assistente com as opções padrão.</li>
+        <li>Abra o Revit 2026. Se ele perguntar sobre carregar o pyRevit, escolha “Sempre carregar”. A aba <em>pyRevit</em> aparece na faixa de opções.</li>
+        <li>Para usar o pacote do Radix: descompacte o .zip em uma pasta fixa; na aba pyRevit abra <em>Settings</em>, adicione a pasta em <em>Custom Extension Directories</em>, salve e clique em <em>Reload</em>.</li>
+      </ol>
+      <div class="links">
+        <a class="btn" href="https://github.com/pyrevitlabs/pyRevit/releases" rel="noopener">Baixar o instalador do pyRevit (GitHub)</a>
+        <a class="btn sec" href="https://www.youtube.com/watch?v=jSrvemiEQkA" rel="noopener">Vídeo de instalação em português</a>
+        <a class="btn sec" href="https://www.youtube.com/watch?v=4KP7PzJTQIA" rel="noopener">Vídeo de instalação em inglês</a>
+      </div>
+
+      <h3 class="sub">2. Abrir o arquivo .dyn no Dynamo</h3>
+      <ol class="lista">
+        <li>Abra o Revit 2026 e abra (ou crie) um projeto. Use uma cópia.</li>
+        <li>Vá na aba <em>Gerenciar</em>, painel <em>Programação visual</em>, e clique em <em>Dynamo</em>.</li>
+        <li>Na tela inicial do Dynamo, clique em <em>Abrir</em> (ou <em>Arquivo &gt; Abrir</em>) e escolha o arquivo .dyn baixado do Radix.</li>
+        <li>Se aparecer aviso de versão ou de nós ausentes, leia, salve uma cópia do .dyn e continue.</li>
+        <li>Clique em <em>Executar</em>, na parte inferior. No modo Manual o gráfico só roda quando você clica. Confira o resultado no Revit.</li>
+      </ol>
+      <p style="color:var(--cinza);font-size:.9rem">Os nomes dos menus podem variar conforme a atualização do Revit e do Dynamo. Confira na sua versão.</p>
+    </div>
+  </section>
+
+  <section id="normas" class="alt">
     <div class="wrap">
       <h2>Normas de referência</h2>
       <p>O aplicativo usa como referência, entre outras, a Lei Federal 6.766/1979, a ABNT NBR 9050, a NBR 16636, a NBR 6492 e a bibliografia de Juan Luis Mascaró. Em projetos em São Paulo, aplica também o Decreto Municipal 59.671/2020. Cada resultado indica a regra usada, e o profissional confere a versão vigente.</p>
       <p>Quando há conflito entre a bibliografia e a norma, o Radix adota a norma como critério de conformidade e mostra o valor da bibliografia apenas como informação.</p>
+      <p>Se você citar uma lei ou norma que o Radix ainda não conhece, ele consulta fontes oficiais e responde de forma fundamentada. Um ato só passa a valer nos cálculos depois da aprovação da responsável técnica.</p>
     </div>
   </section>
 
-  <section id="limites" class="alt">
+  <section id="limites">
     <div class="wrap">
       <h2>Limites que você precisa conhecer</h2>
       <div class="aviso">
@@ -185,19 +234,22 @@
           <li>O limite é de <strong>45 MB por arquivo</strong>.</li>
           <li>O arquivo .dyn e o pacote pyRevit devem ser testados em uma <strong>cópia</strong> do projeto antes do uso.</li>
           <li>A gleba é tratada por um retângulo equivalente. Quando ela se afasta muito de um retângulo, o aplicativo avisa.</li>
+          <li>O aplicativo é <strong>pago</strong> e exige <strong>conexão com a internet</strong>.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <section id="perguntas">
+  <section id="perguntas" class="alt">
     <div class="wrap">
       <h2>Perguntas frequentes</h2>
       <details><summary>O Radix substitui o responsável técnico?</summary><p>Não. O Radix gera um estudo preliminar e aponta conformidades e divergências. A conferência, a assinatura e a responsabilidade técnica continuam com o profissional habilitado.</p></details>
       <details><summary>Quais arquivos o Radix lê?</summary><p>DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura, até 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida.</p></details>
       <details><summary>O que o Radix entrega?</summary><p>Quadros de áreas, quantitativos, estimativa paramétrica de custos, pranchas A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit.</p></details>
+      <details><summary>Preciso instalar o Dynamo?</summary><p>Não. A partir do Revit 2026 o Dynamo já faz parte do Revit. Ele fica na aba Gerenciar, painel Programação visual. Só o pyRevit precisa ser instalado, se você quiser usar o pacote do Radix.</p></details>
       <details><summary>Funciona fora do Brasil?</summary><p>Sim, com ressalvas. Você informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras.</p></details>
-      <details><summary>Em quais idiomas?</summary><p>A interface está disponível em vários idiomas. Termos de uso, relatórios e normas permanecem em português.</p></details>
+      <details><summary>Em quais idiomas?</summary><p>A interface está disponível em 10 idiomas: português, inglês, espanhol, francês, alemão, italiano, árabe, chinês, japonês e russo. Termos de uso, relatórios e normas permanecem em português.</p></details>
+      <details><summary>Posso usar no computador, sem navegador?</summary><p>O Radix roda no navegador e precisa de internet. No Chrome ou no Edge você pode instalá-lo como atalho de aplicativo, que abre em janela própria.</p></details>
       <details><summary>Quanto custa?</summary><p>Os valores e as condições do período de teste são exibidos no aplicativo, antes de qualquer cobrança.</p></details>
     </div>
   </section>
@@ -205,7 +257,7 @@
 
 <footer>
   <div class="wrap">
-    <p><strong>Radix</strong> — estudo de loteamento e urbanismo.</p>
+    <p><strong>Radix</strong> — estudo de loteamento e urbanismo. Idealizado e desenvolvido por Larissa Moura Nascimento, Arquiteta, Urbanista e Gestora Ambiental.</p>
     <p>Este site é apenas informativo: não coleta dados, não usa cookies nem rastreadores. O cadastro e o tratamento de dados ocorrem no aplicativo, conforme os termos e a política de privacidade exibidos lá.</p>
     <p><a href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a></p>
   </div>
