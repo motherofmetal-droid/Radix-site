@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://motherofmetal-droid.github.io/Radix-site/sitemap.xml
