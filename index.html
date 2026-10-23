@@ -1,266 +1,237 @@
 
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!doctype html>
+<html lang="pt-BR" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Radix — Projeto de loteamento e urbanismo com saída para Dynamo e pyRevit</title>
-<meta name="description" content="Radix gera o estudo de loteamento e urbanismo com quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com normas brasileiras e exporta pranchas e arquivos .dyn para Dynamo e pyRevit (Revit 2026).">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://motherofmetal-droid.github.io/Radix-site/">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232d5a27'/%3E%3Ctext x='32' y='44' font-size='34' font-family='Arial,sans-serif' font-weight='700' text-anchor='middle' fill='%23ffffff'%3ER%3C/text%3E%3C/svg%3E">
-<meta name="theme-color" content="#2d5a27">
-
-<!-- Verificação dos buscadores: descomente e cole o código que cada painel fornecer. -->
-<!-- <meta name="google-site-verification" content="COLE_AQUI"> -->
-<!-- <meta name="msvalidate.01" content="COLE_AQUI"> -->
-
+<title>Radix — Aplicativo brasileiro de projetos urbanísticos e vegetação urbana</title>
+<meta name="description" content="Radix: aplicativo brasileiro para projetos de urbanismo e loteamento e para vegetação urbana com plantas nativas, quantitativo por rua e saída para Revit 2026 (Dynamo e pyRevit). 10 idiomas.">
+<meta name="theme-color" content="#2B4766">
+<!-- Troque SEU-SITE pelo endereço onde a página for hospedada -->
+<link rel="canonical" href="https://SEU-SITE/">
+<link rel="icon" type="image/png" href="Radix%20192.png">
+<link rel="apple-touch-icon" href="Radix%20192.png">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="Radix">
-<meta property="og:title" content="Radix — Projeto de loteamento e urbanismo">
-<meta property="og:description" content="Estudo de loteamento com conferência de parâmetros urbanísticos, pranchas e saída para Dynamo e pyRevit.">
-<meta property="og:url" content="https://motherofmetal-droid.github.io/Radix-site/">
+<meta property="og:title" content="Radix — Aplicativo brasileiro de projetos urbanísticos">
+<meta property="og:description" content="Urbanismo, loteamento e vegetação urbana com plantas nativas, em 10 idiomas.">
+<meta property="og:url" content="https://SEU-SITE/">
+<meta property="og:image" content="https://SEU-SITE/Radix%20512.png">
 <meta name="twitter:card" content="summary">
-
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Radix",
-  "applicationCategory": "DesignApplication",
-  "operatingSystem": "Web",
-  "inLanguage": ["pt-BR", "en", "es", "fr", "de", "it", "ar", "zh", "ja", "ru"],
-  "description": "Aplicativo web para estudo de loteamento e urbanismo, com conferência de parâmetros, pranchas e exportação para Dynamo e pyRevit.",
-  "url": "https://motherofmetal-droid.github.io/Radix-site/"
-}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Radix",
+"applicationCategory":"DesignApplication","operatingSystem":"Web",
+"url":"https://radixapp.streamlit.app/",
+"description":"Aplicativo brasileiro para projetos de urbanismo, loteamento e vegetação urbana.",
+"inLanguage":["pt-BR","en","es","fr","de","it","ar","zh","ja","ru"],
+"offers":{"@type":"Offer","price":"45.00","priceCurrency":"BRL"},
+"author":{"@type":"Person","name":"Larissa Moura Nascimento"}}
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type": "Question", "name": "O Radix substitui o responsável técnico?",
-     "acceptedAnswer": {"@type": "Answer", "text": "Não. O Radix gera um estudo preliminar e aponta conformidades e divergências. A conferência, a assinatura e a responsabilidade técnica continuam com o profissional habilitado."}},
-    {"@type": "Question", "name": "Quais arquivos o Radix lê?",
-     "acceptedAnswer": {"@type": "Answer", "text": "DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura. O limite é de 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida; o aplicativo orienta a exportar para DXF ou DWFx."}},
-    {"@type": "Question", "name": "O que o Radix entrega?",
-     "acceptedAnswer": {"@type": "Answer", "text": "Quadros de áreas, quantitativos e estimativa paramétrica de custos, pranchas em formato A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit."}},
-    {"@type": "Question", "name": "Preciso instalar o Dynamo?",
-     "acceptedAnswer": {"@type": "Answer", "text": "Não. A partir do Revit 2026 o Dynamo já faz parte do Revit. Ele fica na aba Gerenciar, painel Programação visual."}},
-    {"@type": "Question", "name": "Funciona fora do Brasil?",
-     "acceptedAnswer": {"@type": "Answer", "text": "Sim, com ressalvas. O usuário informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras."}}
-  ]
-}
-</script>
-
 <style>
-  :root{--verde:#2d5a27;--verde-esc:#1f3f1b;--areia:#f6f3ec;--tinta:#1d2a1b;--cinza:#4b5563;--linha:#d9d5c8;--branco:#fff}
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tinta);background:var(--branco);line-height:1.6}
-  a{color:var(--verde)}
-  .pular{position:absolute;left:-999px;top:0;background:var(--verde);color:#fff;padding:.6rem 1rem;z-index:10}
-  .pular:focus{left:0}
-  .wrap{max-width:1040px;margin:0 auto;padding:0 1.25rem}
-  header.topo{border-bottom:1px solid var(--linha);background:var(--branco);position:sticky;top:0;z-index:5}
-  .topo .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:1rem}
-  .marca{font-weight:800;font-size:1.3rem;color:var(--verde);text-decoration:none;letter-spacing:.5px}
-  nav a{margin-left:1.1rem;text-decoration:none;color:var(--cinza);font-size:.95rem}
-  nav a:hover{color:var(--verde)}
-  .btn{display:inline-block;background:var(--verde);color:#fff!important;padding:.8rem 1.4rem;border-radius:8px;text-decoration:none;font-weight:600;border:2px solid var(--verde)}
-  .btn:hover{background:var(--verde-esc);border-color:var(--verde-esc)}
-  .btn.sec{background:transparent;color:var(--verde)!important}
-  .btn.sec:hover{background:var(--areia)}
-  .hero{background:var(--areia);padding:3.5rem 0}
-  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center}
-  h1{font-size:2.2rem;line-height:1.2;margin:0 0 1rem}
-  .lead{font-size:1.1rem;color:var(--cinza);margin:0 0 1.5rem}
-  .acoes{display:flex;gap:.8rem;flex-wrap:wrap}
-  section{padding:3rem 0}
-  h2{font-size:1.6rem;margin:0 0 1.5rem}
-  h3.sub{font-size:1.15rem;margin:1.5rem 0 .6rem;color:var(--verde)}
-  .grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.1rem}
-  .card{border:1px solid var(--linha);border-radius:10px;padding:1.2rem;background:var(--branco)}
-  .card h3{margin:.2rem 0 .5rem;font-size:1.05rem;color:var(--verde)}
-  .card p{margin:0;color:var(--cinza);font-size:.95rem}
-  .passos{counter-reset:p;list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.1rem}
-  .passos li{counter-increment:p;border-left:4px solid var(--verde);padding:.2rem 0 .2rem 1rem}
-  .passos li::before{content:"Passo " counter(p);display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--verde);font-weight:700}
-  .alt{background:var(--areia)}
-  .aviso{border:1px solid #c9b46a;background:#fbf5df;border-radius:10px;padding:1rem 1.2rem;color:#4a3d0e}
-  .info{border:1px solid #9bc19a;background:#eaf4e8;border-radius:10px;padding:1rem 1.2rem;color:#1f3f1b;margin-bottom:1rem}
-  ul.ok{padding-left:1.1rem;margin:0}
-  ul.ok li{margin:.3rem 0}
-  ol.lista{padding-left:1.3rem;margin:0}
-  ol.lista li{margin:.4rem 0}
-  .links{display:flex;gap:.7rem;flex-wrap:wrap;margin:.8rem 0 0}
-  details{border:1px solid var(--linha);border-radius:8px;padding:.8rem 1rem;margin-bottom:.7rem;background:var(--branco)}
-  summary{cursor:pointer;font-weight:600}
-  details p{margin:.6rem 0 0;color:var(--cinza)}
-  footer{background:var(--verde-esc);color:#e5eadf;padding:2rem 0;font-size:.9rem}
-  footer a{color:#fff}
-  :focus-visible{outline:3px solid #e0a800;outline-offset:2px}
-  @media (max-width:760px){.hero .wrap{grid-template-columns:1fr}h1{font-size:1.8rem}nav{display:none}}
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+:root{--azul:#2B4766;--esc:#1F3550;--ouro:#B8975A;--champ:#E6D3A3;--marfim:#FAF7F0;--nebl:#EAF0F5}
+*{box-sizing:border-box}
+html{font-size:100%}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--esc);line-height:1.6;
+  background:linear-gradient(160deg,#FAF7F0 0%,#EEF2F6 55%,#E3EAF1 100%) fixed;min-height:100vh}
+h1,h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:.01em;margin:0}
+a{color:var(--azul)}
+:focus-visible{outline:3px solid var(--esc);outline-offset:2px;box-shadow:0 0 0 6px var(--champ)}
+.skip{position:absolute;left:-999px;top:0;background:var(--esc);color:#fff;padding:.6rem 1rem;z-index:10}
+.skip:focus{left:.5rem;top:.5rem}
+header{display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;align-items:center;justify-content:space-between;
+  padding:.8rem clamp(1rem,4vw,3rem);border-bottom:1px solid rgba(43,71,102,.18);background:rgba(250,247,240,.85);backdrop-filter:blur(6px)}
+.selo{display:flex;align-items:center;gap:.6rem;font-weight:600}
+.selo svg{width:2.2rem;height:auto;border-radius:3px;box-shadow:0 0 0 1px rgba(31,53,80,.25)}
+.ctrl{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.ctrl label{font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+select,input[type=range]{font:inherit;color:var(--esc)}
+select{padding:.4rem .6rem;border:1px solid var(--azul);border-radius:8px;background:#fff;min-height:2.4rem}
+input[type=range]{accent-color:var(--ouro);width:9rem}
+main{max-width:62rem;margin:0 auto;padding:0 clamp(1rem,4vw,2rem) 3rem}
+.hero{text-align:center;padding:clamp(1.5rem,5vw,3.5rem) 0 1.5rem}
+.logo{width:min(70%,16rem);height:auto;display:block;margin:0 auto 1rem}
+.logo-fb{display:none;width:min(70%,12rem);margin:0 auto 1rem}
+h1{font-size:clamp(2.2rem,6vw,3.4rem);color:var(--esc)}
+.sub{font-size:1.2rem;max-width:40rem;margin:.6rem auto 1.4rem;color:#33506E}
+.btns{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.btn{display:inline-block;padding:.8rem 1.4rem;border-radius:10px;border:1px solid var(--azul);text-decoration:none;font-weight:600;min-height:2.75rem}
+.btn.p{background:var(--azul);color:#fff}.btn.p:hover{background:var(--esc)}
+.btn.s{background:#fff;color:var(--esc)}.btn.s:hover{border-color:var(--ouro)}
+section{margin-top:2.2rem;background:rgba(255,255,255,.75);border:1px solid rgba(43,71,102,.18);border-left:6px solid var(--ouro);border-radius:12px;padding:1.2rem 1.4rem}
+h2{font-size:1.5rem;margin-bottom:.7rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+.grid p{margin:0;padding:.9rem 1rem;background:var(--marfim);border-radius:10px;border:1px solid rgba(43,71,102,.12)}
+ol{padding-inline-start:1.4rem}li{margin:.4rem 0}
+.nota{background:var(--nebl);border-radius:10px;padding:.7rem 1rem;margin:.8rem 0;font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:.7rem;margin:1rem 0 .2rem}
+.khepri{display:inline-flex;align-items:center;gap:.8rem;padding:.6rem .9rem;border:1px solid rgba(43,71,102,.3);border-radius:12px;background:#fff;text-decoration:none;font-weight:600}
+.khepri:hover{border-color:var(--ouro)}
+.khepri img,.khepri svg{width:3rem;height:3rem;object-fit:contain;flex:none}
+.aviso{font-size:.92rem;color:#33506E}
+noscript p{margin:1rem auto;max-width:40rem;padding:.8rem 1rem;background:var(--nebl);border-radius:10px;text-align:center;font-weight:600}
+footer{text-align:center;padding:1.5rem 1rem 2.5rem;font-size:.9rem;color:#33506E;border-top:1px solid rgba(43,71,102,.18)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:background .2s,border-color .2s}}
 </style>
 </head>
 <body>
-<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+<a class="skip" href="#conteudo" data-i="skip">Ir para o conteúdo</a>
 
-<header class="topo">
-  <div class="wrap">
-    <a class="marca" href="#">RADIX</a>
-    <nav aria-label="Principal">
-      <a href="#recursos">Recursos</a>
-      <a href="#como-funciona">Como funciona</a>
-      <a href="#revit">Revit 2026</a>
-      <a href="#limites">Limites</a>
-      <a href="#perguntas">Perguntas</a>
-    </nav>
-    <a class="btn" href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a>
+<header>
+  <div class="selo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 49" role="img" aria-label="Bandeira do Brasil">
+      <rect width="70" height="49" fill="#009c3b"/>
+      <polygon points="35,4 66,24.5 35,45 4,24.5" fill="#ffdf00"/>
+      <circle cx="35" cy="24.5" r="10" fill="#002776"/>
+    </svg>
+    <span data-i="br">Aplicativo Brasileiro</span>
+  </div>
+  <div class="ctrl">
+    <label><span data-i="lang">Idioma</span>
+      <select id="sel" aria-label="Idioma / Language">
+        <option value="pt-BR">Português (Brasil)</option><option value="en">English</option>
+        <option value="es">Español</option><option value="fr">Français</option>
+        <option value="de">Deutsch</option><option value="it">Italiano</option>
+        <option value="ar">العربية</option><option value="zh">中文</option>
+        <option value="ja">日本語</option><option value="ru">Русский</option>
+      </select></label>
+    <label><span data-i="zoom">Tamanho do texto</span>
+      <input id="zoom" type="range" min="100" max="200" step="10" value="100" aria-valuetext="100%">
+      <output id="zout">100%</output></label>
   </div>
 </header>
 
 <main id="conteudo">
+  <noscript><p>Radix — aplicativo brasileiro de projetos urbanísticos e vegetação urbana. Ative o JavaScript para ver a página completa e escolher o idioma. / Enable JavaScript to see the full page and choose the language.</p></noscript>
+
   <div class="hero">
-    <div class="wrap">
-      <div>
-        <h1>Estudo de loteamento e urbanismo, do terreno às pranchas.</h1>
-        <p class="lead">O Radix organiza quadras, lotes, vias, calçadas, drenagem e arborização, confere parâmetros com as normas brasileiras de referência e exporta para Dynamo e pyRevit. Aplicativo pago, usado online, com período de teste.</p>
-        <div class="acoes">
-          <a class="btn" href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a>
-          <a class="btn sec" href="#como-funciona">Ver como funciona</a>
-        </div>
-      </div>
-      <svg role="img" aria-label="Esquema de uma gleba dividida em quadras e lotes, com uma via coletora ao centro" viewBox="0 0 320 240" xmlns="http://www.w3.org/2000/svg">
-        <rect x="6" y="6" width="308" height="228" rx="8" fill="#fff" stroke="#2d5a27" stroke-width="2"/>
-        <rect x="14" y="108" width="292" height="24" fill="#d9d5c8"/>
-        <g fill="#e8f1e4" stroke="#2d5a27" stroke-width="1">
-          <rect x="18" y="16" width="40" height="40"/><rect x="62" y="16" width="40" height="40"/><rect x="106" y="16" width="40" height="40"/><rect x="150" y="16" width="40" height="40"/><rect x="194" y="16" width="40" height="40"/><rect x="238" y="16" width="40" height="40"/>
-          <rect x="18" y="62" width="40" height="40"/><rect x="62" y="62" width="40" height="40"/><rect x="106" y="62" width="40" height="40"/><rect x="150" y="62" width="40" height="40"/><rect x="194" y="62" width="40" height="40"/><rect x="238" y="62" width="40" height="40"/>
-          <rect x="18" y="138" width="40" height="40"/><rect x="62" y="138" width="40" height="40"/><rect x="106" y="138" width="40" height="40"/><rect x="150" y="138" width="40" height="40"/><rect x="194" y="138" width="40" height="40"/><rect x="238" y="138" width="40" height="40"/>
-        </g>
-        <rect x="18" y="184" width="260" height="40" fill="#cfe3c9" stroke="#2d5a27" stroke-width="1" stroke-dasharray="4 3"/>
-        <text x="148" y="208" font-size="11" text-anchor="middle" fill="#1f3f1b" font-family="system-ui,sans-serif">área verde</text>
-        <text x="160" y="124" font-size="10" text-anchor="middle" fill="#4b5563" font-family="system-ui,sans-serif">via coletora</text>
-      </svg>
+    <img class="logo" src="Radix%20512.png" srcset="Radix%20192.png 192w, Radix%20512.png 512w" sizes="(max-width:600px) 60vw, 256px"
+         width="256" height="256" alt="Radix"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+    <svg class="logo-fb" viewBox="0 0 120 120" role="img" aria-label="Radix">
+      <circle cx="60" cy="60" r="56" fill="#2B4766" stroke="#B8975A" stroke-width="4"/>
+      <text x="60" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="64" fill="#E6D3A3">R</text>
+    </svg>
+    <h1>Radix</h1>
+    <p class="sub" data-i="sub"></p>
+    <div class="btns">
+      <a class="btn p" href="https://radixapp.streamlit.app/" target="_blank" rel="noopener noreferrer" data-i="open"></a>
+      <a class="btn s" href="#guia" data-i="guide"></a>
     </div>
   </div>
 
-  <section id="recursos">
-    <div class="wrap">
-      <h2>O que o Radix faz</h2>
-      <div class="grade">
-        <div class="card"><h3>Implantação</h3><p>Distribui quadras, lotes, vias e áreas públicas a partir da gleba e dos parâmetros do projeto.</p></div>
-        <div class="card"><h3>Conferência de parâmetros</h3><p>Compara declividades, larguras de vias e calçadas, acessibilidade e áreas públicas com as normas de referência e aponta divergências.</p></div>
-        <div class="card"><h3>Infraestrutura e arborização</h3><p>Dimensiona drenagem, iluminação e arborização, com quantitativos e estimativa paramétrica de custos.</p></div>
-        <div class="card"><h3>Pranchas</h3><p>Gera pranchas em A0 ou A1 com implantação, cortes, quadro de áreas e carimbo.</p></div>
-        <div class="card"><h3>Dynamo e pyRevit</h3><p>Exporta um arquivo .dyn e um pacote para pyRevit, para continuar o trabalho no Revit 2026.</p></div>
-        <div class="card"><h3>Plantas da região</h3><p>Importa a lista de plantas nativas em CSV. O Radix não inventa espécies: usa apenas o que você envia.</p></div>
-        <div class="card"><h3>Leis e normas novas</h3><p>Você cita uma lei ou norma; o Radix consulta fontes oficiais e responde com fundamentação. A incorporação só ocorre após aprovação da responsável técnica.</p></div>
-        <div class="card"><h3>Acessível e multilíngue</h3><p>Interface em 10 idiomas, navegação por teclado, leitor de tela, contraste adequado e opção de pausar as animações.</p></div>
-      </div>
+  <section aria-labelledby="t-f">
+    <h2 id="t-f" data-i="ftit"></h2>
+    <div class="grid">
+      <p data-i="f1"></p><p data-i="f2"></p><p data-i="f3"></p><p data-i="f4"></p>
     </div>
   </section>
 
-  <section id="como-funciona" class="alt">
-    <div class="wrap">
-      <h2>Como funciona</h2>
-      <ol class="passos">
-        <li><strong>Envie a gleba.</strong><br>DXF, DWFx, lista de vértices ou documento da prefeitura. Você confirma o contorno e a escala.</li>
-        <li><strong>Informe os parâmetros.</strong><br>Cidade, declividade, formato da prancha e, fora do Brasil, a chuva de projeto.</li>
-        <li><strong>Revise os resultados.</strong><br>Quadros, quantitativos, avisos de conformidade e a estimativa de custos.</li>
-        <li><strong>Exporte.</strong><br>Pranchas, arquivo .dyn e pacote pyRevit.</li>
-      </ol>
+  <section id="guia" aria-labelledby="t-g">
+    <h2 id="t-g" data-i="gtit"></h2>
+    <ol>
+      <li data-i="g1"></li>
+      <li data-i="g3"></li>
+      <li data-i="g4"></li>
+    </ol>
+    <p class="nota" data-i="gnote"></p>
+    <p data-i="gdev"></p>
+    <div class="links">
+      <a class="btn s" href="https://github.com/pyrevitlabs/pyRevit/releases" target="_blank" rel="noopener noreferrer" data-i="ldl"></a>
+      <a class="btn s" href="https://www.youtube.com/watch?v=jSrvemiEQkA" target="_blank" rel="noopener noreferrer" data-i="lpt"></a>
+      <a class="btn s" href="https://www.youtube.com/watch?v=4KP7PzJTQIA" target="_blank" rel="noopener noreferrer" data-i="len"></a>
     </div>
   </section>
 
-  <section id="revit">
-    <div class="wrap">
-      <h2>Revit 2026: instalar o pyRevit e abrir o arquivo no Dynamo</h2>
-      <div class="aviso" role="note"><strong>Versão do Revit:</strong> use o Autodesk Revit 2026. Teste sempre em uma <strong>cópia</strong> do projeto.</div>
-      <div class="info" role="note" style="margin-top:1rem"><strong>O Dynamo não precisa ser instalado.</strong> A partir do Revit 2026 ele já faz parte do Revit. Fica na aba <em>Gerenciar</em>, painel <em>Programação visual</em>.</div>
-
-      <h3 class="sub">Em quais equipamentos funciona</h3>
-      <ul class="ok">
-        <li><strong>Tablets Windows (Surface Pro):</strong> funciona, contanto que seja um tablet com o sistema operacional Windows completo e que atenda aos requisitos de hardware (processador e memória RAM) para rodar o Autodesk Revit.</li>
-        <li><strong>Computadores e notebooks Windows:</strong> nativamente. Basta baixar o instalador oficial do pyRevit no GitHub e executá-lo no computador onde o Revit já está instalado.</li>
-      </ul>
-
-      <h3 class="sub">1. Instalar o pyRevit</h3>
-      <ol class="lista">
-        <li>Confirme que o Autodesk Revit 2026 já está instalado no computador Windows e feche o Revit.</li>
-        <li>Abra a página de download do pyRevit, entre na versão mais recente (<em>Latest</em>) e baixe o instalador (arquivo .exe) em <em>Assets</em>.</li>
-        <li>Execute o instalador e siga o assistente com as opções padrão.</li>
-        <li>Abra o Revit 2026. Se ele perguntar sobre carregar o pyRevit, escolha “Sempre carregar”. A aba <em>pyRevit</em> aparece na faixa de opções.</li>
-        <li>Para usar o pacote do Radix: descompacte o .zip em uma pasta fixa; na aba pyRevit abra <em>Settings</em>, adicione a pasta em <em>Custom Extension Directories</em>, salve e clique em <em>Reload</em>.</li>
-      </ol>
-      <div class="links">
-        <a class="btn" href="https://github.com/pyrevitlabs/pyRevit/releases" rel="noopener">Baixar o instalador do pyRevit (GitHub)</a>
-        <a class="btn sec" href="https://www.youtube.com/watch?v=jSrvemiEQkA" rel="noopener">Vídeo de instalação em português</a>
-        <a class="btn sec" href="https://www.youtube.com/watch?v=4KP7PzJTQIA" rel="noopener">Vídeo de instalação em inglês</a>
-      </div>
-
-      <h3 class="sub">2. Abrir o arquivo .dyn no Dynamo</h3>
-      <ol class="lista">
-        <li>Abra o Revit 2026 e abra (ou crie) um projeto. Use uma cópia.</li>
-        <li>Vá na aba <em>Gerenciar</em>, painel <em>Programação visual</em>, e clique em <em>Dynamo</em>.</li>
-        <li>Na tela inicial do Dynamo, clique em <em>Abrir</em> (ou <em>Arquivo &gt; Abrir</em>) e escolha o arquivo .dyn baixado do Radix.</li>
-        <li>Se aparecer aviso de versão ou de nós ausentes, leia, salve uma cópia do .dyn e continue.</li>
-        <li>Clique em <em>Executar</em>, na parte inferior. No modo Manual o gráfico só roda quando você clica. Confira o resultado no Revit.</li>
-      </ol>
-      <p style="color:var(--cinza);font-size:.9rem">Os nomes dos menus podem variar conforme a atualização do Revit e do Dynamo. Confira na sua versão.</p>
-    </div>
+  <section aria-labelledby="t-p">
+    <h2 id="t-p" data-i="ptit"></h2>
+    <p data-i="price"></p>
+    <p class="aviso" data-i="aviso"></p>
   </section>
 
-  <section id="normas" class="alt">
-    <div class="wrap">
-      <h2>Normas de referência</h2>
-      <p>O aplicativo usa como referência, entre outras, a Lei Federal 6.766/1979, a ABNT NBR 9050, a NBR 16636, a NBR 6492 e a bibliografia de Juan Luis Mascaró. Em projetos em São Paulo, aplica também o Decreto Municipal 59.671/2020. Cada resultado indica a regra usada, e o profissional confere a versão vigente.</p>
-      <p>Quando há conflito entre a bibliografia e a norma, o Radix adota a norma como critério de conformidade e mostra o valor da bibliografia apenas como informação.</p>
-      <p>Se você citar uma lei ou norma que o Radix ainda não conhece, ele consulta fontes oficiais e responde de forma fundamentada. Um ato só passa a valer nos cálculos depois da aprovação da responsável técnica.</p>
-    </div>
-  </section>
-
-  <section id="limites">
-    <div class="wrap">
-      <h2>Limites que você precisa conhecer</h2>
-      <div class="aviso">
-        <ul class="ok">
-          <li>O Radix gera um <strong>estudo preliminar</strong>. Não substitui o responsável técnico, a aprovação em órgão público nem o projeto executivo.</li>
-          <li>Os custos são <strong>estimativa paramétrica</strong>, não orçamento.</li>
-          <li>Arquivos <strong>DWG, DWF clássico e RVT</strong> não têm a geometria lida. O aplicativo orienta a exportar para DXF ou DWFx.</li>
-          <li>O limite é de <strong>45 MB por arquivo</strong>.</li>
-          <li>O arquivo .dyn e o pacote pyRevit devem ser testados em uma <strong>cópia</strong> do projeto antes do uso.</li>
-          <li>A gleba é tratada por um retângulo equivalente. Quando ela se afasta muito de um retângulo, o aplicativo avisa.</li>
-          <li>O aplicativo é <strong>pago</strong> e exige <strong>conexão com a internet</strong>.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="perguntas" class="alt">
-    <div class="wrap">
-      <h2>Perguntas frequentes</h2>
-      <details><summary>O Radix substitui o responsável técnico?</summary><p>Não. O Radix gera um estudo preliminar e aponta conformidades e divergências. A conferência, a assinatura e a responsabilidade técnica continuam com o profissional habilitado.</p></details>
-      <details><summary>Quais arquivos o Radix lê?</summary><p>DXF, DWFx, listas de vértices em CSV ou TXT, e PDF ou DOCX de documentos da prefeitura, até 45 MB por arquivo. DWG, DWF clássico e RVT não têm a geometria lida.</p></details>
-      <details><summary>O que o Radix entrega?</summary><p>Quadros de áreas, quantitativos, estimativa paramétrica de custos, pranchas A0 ou A1, um arquivo .dyn para o Dynamo e um pacote para pyRevit.</p></details>
-      <details><summary>Preciso instalar o Dynamo?</summary><p>Não. A partir do Revit 2026 o Dynamo já faz parte do Revit. Ele fica na aba Gerenciar, painel Programação visual. Só o pyRevit precisa ser instalado, se você quiser usar o pacote do Radix.</p></details>
-      <details><summary>Funciona fora do Brasil?</summary><p>Sim, com ressalvas. Você informa a chuva de projeto e envia a lista de plantas nativas da região. As normas de referência do aplicativo são brasileiras.</p></details>
-      <details><summary>Em quais idiomas?</summary><p>A interface está disponível em 10 idiomas: português, inglês, espanhol, francês, alemão, italiano, árabe, chinês, japonês e russo. Termos de uso, relatórios e normas permanecem em português.</p></details>
-      <details><summary>Posso usar no computador, sem navegador?</summary><p>O Radix roda no navegador e precisa de internet. No Chrome ou no Edge você pode instalá-lo como atalho de aplicativo, que abre em janela própria.</p></details>
-      <details><summary>Quanto custa?</summary><p>Os valores e as condições do período de teste são exibidos no aplicativo, antes de qualquer cobrança.</p></details>
-    </div>
+  <section>
+    <a class="khepri" href="https://appkhepri.streamlit.app/?lang=pt" target="_blank" rel="noopener noreferrer">
+      <img src="khepri-512.png" width="48" height="48" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <svg viewBox="0 0 48 48" aria-hidden="true" style="display:none"><circle cx="24" cy="24" r="21" fill="none" stroke="#B8975A" stroke-width="3"/><circle cx="24" cy="24" r="9" fill="#2B4766"/></svg>
+      <span><span data-i="khepri"></span> ↗</span>
+    </a>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">
-    <p><strong>Radix</strong> — estudo de loteamento e urbanismo. Idealizado e desenvolvido por Larissa Moura Nascimento, Arquiteta, Urbanista e Gestora Ambiental.</p>
-    <p>Este site é apenas informativo: não coleta dados, não usa cookies nem rastreadores. O cadastro e o tratamento de dados ocorrem no aplicativo, conforme os termos e a política de privacidade exibidos lá.</p>
-    <p><a href="https://SEU-APP.exemplo" rel="noopener">Abrir o aplicativo</a></p>
-  </div>
-</footer>
+<footer><span data-i="foot"></span></footer>
+
+<script>
+(function () {
+  var L = ["pt-BR","en","es","fr","de","it","ar","zh","ja","ru"];
+  var T = {
+    skip:["Ir para o conteúdo","Skip to content","Ir al contenido","Aller au contenu","Zum Inhalt springen","Vai al contenuto","انتقل إلى المحتوى","跳到内容","本文へ移動","Перейти к содержимому"],
+    br:["Aplicativo Brasileiro","Brazilian app","Aplicación brasileña","Application brésilienne","Brasilianische App","App brasiliana","تطبيق برازيلي","巴西应用","ブラジル製アプリ","Бразильское приложение"],
+    lang:["Idioma","Language","Idioma","Langue","Sprache","Lingua","اللغة","语言","言語","Язык"],
+    zoom:["Tamanho do texto","Text size","Tamaño del texto","Taille du texte","Textgröße","Dimensione del testo","حجم النص","文字大小","文字サイズ","Размер текста"],
+    sub:["Projetos urbanísticos e vegetação urbana, de acordo com as normas brasileiras.","Urban design projects and urban vegetation, following Brazilian standards.","Proyectos urbanísticos y vegetación urbana, conforme a las normas brasileñas.","Projets d'urbanisme et végétation urbaine, selon les normes brésiliennes.","Städtebauliche Projekte und urbane Vegetation nach brasilianischen Normen.","Progetti urbanistici e vegetazione urbana, secondo le norme brasiliane.","مشاريع عمرانية ونباتات حضرية وفق المعايير البرازيلية.","依据巴西规范的城市规划项目与城市植被。","ブラジルの規格に沿った都市計画プロジェクトと都市緑化。","Градостроительные проекты и городское озеленение по бразильским нормам."],
+    open:["Abrir o aplicativo","Open the app","Abrir la aplicación","Ouvrir l'application","App öffnen","Apri l'app","فتح التطبيق","打开应用","アプリを開く","Открыть приложение"],
+    guide:["Guia pyRevit e Dynamo","pyRevit and Dynamo guide","Guía de pyRevit y Dynamo","Guide pyRevit et Dynamo","Anleitung pyRevit und Dynamo","Guida pyRevit e Dynamo","دليل pyRevit وDynamo","pyRevit 与 Dynamo 指南","pyRevit と Dynamo のガイド","Руководство по pyRevit и Dynamo"],
+    ftit:["O que o Radix faz","What Radix does","Qué hace Radix","Ce que fait Radix","Was Radix leistet","Cosa fa Radix","ما الذي يقدمه Radix","Radix 能做什么","Radix でできること","Что умеет Radix"],
+    f1:["Loteamentos e urbanismo: sistema viário, lotes, drenagem, saneamento, iluminação e terraplenagem.","Subdivisions and urban design: road network, lots, drainage, sanitation, lighting and earthworks.","Loteos y urbanismo: red vial, lotes, drenaje, saneamiento, iluminación y movimiento de tierras.","Lotissements et urbanisme : voirie, lots, drainage, assainissement, éclairage et terrassement.","Parzellierung und Städtebau: Straßennetz, Grundstücke, Entwässerung, Sanitärversorgung, Beleuchtung, Erdarbeiten.","Lottizzazioni e urbanistica: viabilità, lotti, drenaggio, sanitari, illuminazione e movimenti terra.","التقسيمات والتخطيط العمراني: الطرق والقطع والصرف والصرف الصحي والإنارة وأعمال التسوية.","地块划分与城市规划：道路系统、地块、排水、给排水、照明与土方。","分譲・都市計画：道路網、区画、排水、衛生、照明、造成工事。","Участки и градостроительство: улично-дорожная сеть, участки, дренаж, санитария, освещение, земляные работы."],
+    f2:["Vegetação urbana: plantas nativas do município, para calçada e para praça, com o quantitativo por rua.","Urban vegetation: native plants for the municipality, for sidewalks and squares, with quantities per street.","Vegetación urbana: plantas nativas del municipio, para acera y plaza, con la cantidad por calle.","Végétation urbaine : plantes indigènes de la commune, pour trottoirs et places, avec les quantités par rue.","Urbane Vegetation: heimische Pflanzen der Gemeinde für Gehwege und Plätze, mit Mengen je Straße.","Vegetazione urbana: piante autoctone del comune, per marciapiedi e piazze, con le quantità per strada.","الغطاء النباتي الحضري: نباتات محلية للبلدية، للأرصفة والساحات، مع الكميات لكل شارع.","城市植被：当地乡土植物，分人行道与广场，并给出各街道数量。","都市緑化：自治体の在来種を歩道用・広場用に区分し、街路ごとの数量を算出。","Городское озеленение: местные растения для тротуаров и площадей, количество по улицам."],
+    f3:["Saída para o Revit 2026: arquivo .dyn para o Dynamo e pacote para o pyRevit.","Output for Revit 2026: a .dyn file for Dynamo and a pyRevit package.","Salida para Revit 2026: archivo .dyn para Dynamo y paquete para pyRevit.","Sortie pour Revit 2026 : fichier .dyn pour Dynamo et paquet pyRevit.","Ausgabe für Revit 2026: .dyn-Datei für Dynamo und pyRevit-Paket.","Output per Revit 2026: file .dyn per Dynamo e pacchetto pyRevit.","مخرجات لـ Revit 2026: ملف .dyn لـ Dynamo وحزمة لـ pyRevit.","输出至 Revit 2026：用于 Dynamo 的 .dyn 文件和 pyRevit 包。","Revit 2026 向け出力：Dynamo 用 .dyn ファイルと pyRevit パッケージ。","Вывод для Revit 2026: файл .dyn для Dynamo и пакет pyRevit."],
+    f4:["Interface em 10 idiomas e zoom para quem tem dificuldade de enxergar.","Interface in 10 languages and zoom for people with low vision.","Interfaz en 10 idiomas y zoom para personas con baja visión.","Interface en 10 langues et zoom pour les personnes malvoyantes.","Oberfläche in 10 Sprachen und Zoom für Menschen mit Sehbehinderung.","Interfaccia in 10 lingue e zoom per chi ha difficoltà a vedere.","واجهة بعشر لغات وتكبير لضعاف البصر.","支持 10 种语言，并提供放大功能，方便视力不佳者。","10言語に対応し、見えにくい方のための拡大機能付き。","Интерфейс на 10 языках и увеличение для людей со слабым зрением."],
+    gtit:["Instalar o pyRevit e abrir o Dynamo","Install pyRevit and open Dynamo","Instalar pyRevit y abrir Dynamo","Installer pyRevit et ouvrir Dynamo","pyRevit installieren und Dynamo öffnen","Installare pyRevit e aprire Dynamo","تثبيت pyRevit وفتح Dynamo","安装 pyRevit 并打开 Dynamo","pyRevit のインストールと Dynamo の起動","Установка pyRevit и запуск Dynamo"],
+    g1:["Baixe o instalador do pyRevit (link abaixo) e execute-o no computador onde o Revit já está instalado. Reinicie o Revit depois.","Download the pyRevit installer (link below) and run it on the computer where Revit is already installed. Restart Revit afterwards.","Descargue el instalador de pyRevit (enlace abajo) y ejecútelo en el equipo donde Revit ya está instalado. Reinicie Revit después.","Téléchargez l'installateur pyRevit (lien ci-dessous) et lancez-le sur l'ordinateur où Revit est déjà installé. Redémarrez ensuite Revit.","Laden Sie das pyRevit-Installationsprogramm herunter (Link unten) und führen Sie es auf dem Rechner aus, auf dem Revit bereits installiert ist. Starten Sie Revit danach neu.","Scarica il programma di installazione di pyRevit (link sotto) ed eseguilo sul computer in cui Revit è già installato. Poi riavvia Revit.","نزّل مثبّت pyRevit (الرابط أدناه) وشغّله على الحاسوب المثبت عليه Revit. ثم أعد تشغيل Revit.","下载 pyRevit 安装程序（见下方链接），在已安装 Revit 的电脑上运行，然后重启 Revit。","pyRevit のインストーラー（下のリンク）をダウンロードし、Revit がインストール済みのパソコンで実行します。その後 Revit を再起動します。","Скачайте установщик pyRevit (ссылка ниже) и запустите его на компьютере, где уже установлен Revit. Затем перезапустите Revit."],
+    g3:["No Revit, abra a aba Gerenciar e clique em Dynamo.","In Revit, open the Manage tab and click Dynamo.","En Revit, abra la pestaña Gestionar y pulse Dynamo.","Dans Revit, ouvrez l'onglet Gérer et cliquez sur Dynamo.","Öffnen Sie in Revit die Registerkarte Verwalten und klicken Sie auf Dynamo.","In Revit, apri la scheda Gestisci e fai clic su Dynamo.","في Revit افتح علامة التبويب «إدارة» ثم انقر على Dynamo.","在 Revit 中打开“管理”选项卡，点击 Dynamo。","Revit で［管理］タブを開き、Dynamo をクリックします。","В Revit откройте вкладку «Управление» и нажмите Dynamo."],
+    g4:["No Dynamo, use Arquivo › Abrir e escolha o arquivo .dyn baixado do Radix.","In Dynamo, use File › Open and choose the .dyn file downloaded from Radix.","En Dynamo, use Archivo › Abrir y elija el archivo .dyn descargado de Radix.","Dans Dynamo, utilisez Fichier › Ouvrir et choisissez le fichier .dyn téléchargé depuis Radix.","Wählen Sie in Dynamo Datei › Öffnen und die von Radix heruntergeladene .dyn-Datei.","In Dynamo, usa File › Apri e scegli il file .dyn scaricato da Radix.","في Dynamo اختر ملف › فتح ثم حدّد ملف .dyn الذي نزّلته من Radix.","在 Dynamo 中选择“文件 › 打开”，选取从 Radix 下载的 .dyn 文件。","Dynamo で［ファイル › 開く］を選び、Radix からダウンロードした .dyn ファイルを選択します。","В Dynamo выберите Файл › Открыть и укажите файл .dyn, скачанный из Radix."],
+    gnote:["O Dynamo já faz parte do Revit 2026: não é preciso instalá-lo.","Dynamo is already part of Revit 2026: no installation needed.","Dynamo ya forma parte de Revit 2026: no hace falta instalarlo.","Dynamo fait déjà partie de Revit 2026 : inutile de l'installer.","Dynamo ist bereits Bestandteil von Revit 2026: Eine Installation ist nicht nötig.","Dynamo fa già parte di Revit 2026: non serve installarlo.","Dynamo جزء من Revit 2026 بالفعل، فلا حاجة لتثبيته.","Dynamo 已内置于 Revit 2026，无需另行安装。","Dynamo は Revit 2026 に含まれているため、インストールは不要です。","Dynamo уже входит в Revit 2026: устанавливать его не нужно."],
+    gdev:["Funciona em computadores e notebooks Windows e em tablets com Windows completo (como o Surface Pro) que atendam aos requisitos do Revit.","Works on Windows computers and laptops, and on tablets running full Windows (such as Surface Pro) that meet Revit's requirements.","Funciona en ordenadores y portátiles con Windows y en tabletas con Windows completo (como Surface Pro) que cumplan los requisitos de Revit.","Fonctionne sur les ordinateurs Windows et les tablettes avec Windows complet (comme la Surface Pro) répondant à la configuration requise de Revit.","Läuft auf Windows-PCs und -Notebooks sowie auf Tablets mit vollständigem Windows (z. B. Surface Pro), die die Revit-Anforderungen erfüllen.","Funziona su computer e notebook Windows e su tablet con Windows completo (come Surface Pro) che soddisfano i requisiti di Revit.","يعمل على حواسيب Windows المكتبية والمحمولة وعلى الأجهزة اللوحية بنظام Windows الكامل (مثل Surface Pro) التي تستوفي متطلبات Revit.","适用于 Windows 台式机和笔记本，以及运行完整 Windows 且满足 Revit 要求的平板（如 Surface Pro）。","Windows のパソコン／ノート、および Revit の要件を満たすフル Windows タブレット（Surface Pro など）で動作します。","Работает на компьютерах и ноутбуках с Windows, а также на планшетах с полной Windows (например, Surface Pro), отвечающих требованиям Revit."],
+    ldl:["Baixar o pyRevit (GitHub)","Download pyRevit (GitHub)","Descargar pyRevit (GitHub)","Télécharger pyRevit (GitHub)","pyRevit herunterladen (GitHub)","Scarica pyRevit (GitHub)","تنزيل pyRevit (GitHub)","下载 pyRevit（GitHub）","pyRevit をダウンロード (GitHub)","Скачать pyRevit (GitHub)"],
+    lpt:["Vídeo de instalação em português","Installation video in Portuguese","Vídeo de instalación en portugués","Vidéo d'installation en portugais","Installationsvideo auf Portugiesisch","Video di installazione in portoghese","فيديو التثبيت بالبرتغالية","葡萄牙语安装视频","ポルトガル語のインストール動画","Видео об установке на португальском"],
+    len:["Vídeo de instalação em inglês","Installation video in English","Vídeo de instalación en inglés","Vidéo d'installation en anglais","Installationsvideo auf Englisch","Video di installazione in inglese","فيديو التثبيت بالإنجليزية","英语安装视频","英語のインストール動画","Видео об установке на английском"],
+    ptit:["Plano","Plan","Plan","Offre","Tarif","Piano","الخطة","套餐","プラン","Тариф"],
+    price:["3 dias de uso gratuito; depois R$ 45,00 por mês, mais impostos conforme o local, quando aplicável.","3 days free; then R$ 45.00 per month, plus taxes depending on location, where applicable.","3 días gratis; luego R$ 45,00 al mes, más impuestos según el lugar, cuando corresponda.","3 jours gratuits ; ensuite R$ 45,00 par mois, plus taxes selon le lieu, le cas échéant.","3 Tage kostenlos; danach R$ 45,00 pro Monat zuzüglich ortsabhängiger Steuern, soweit anfallend.","3 giorni gratuiti; poi R$ 45,00 al mese, più imposte in base al luogo, ove applicabili.","3 أيام مجانًا؛ ثم R$ 45.00 شهريًا، إضافةً إلى الضرائب بحسب الموقع عند الاقتضاء.","免费试用 3 天；之后每月 R$ 45.00，另按所在地区加收适用税费。","3日間無料。その後は月額 R$ 45.00（所在地により税が別途かかる場合があります）。","3 дня бесплатно; затем R$ 45,00 в месяц плюс налоги по месту, если применимо."],
+    aviso:["O Radix apoia o projeto, mas não substitui a análise e a responsabilidade técnica do profissional habilitado. Confira normas e leis vigentes antes de usar.","Radix supports the design but does not replace the analysis and technical responsibility of the licensed professional. Check the current standards and laws before use.","Radix apoya el proyecto, pero no sustituye el análisis ni la responsabilidad técnica del profesional habilitado. Verifique las normas y leyes vigentes antes de usarlo.","Radix assiste le projet mais ne remplace ni l'analyse ni la responsabilité technique du professionnel habilité. Vérifiez les normes et lois en vigueur avant usage.","Radix unterstützt die Planung, ersetzt aber nicht die Prüfung und fachliche Verantwortung der zugelassenen Fachperson. Prüfen Sie vor der Nutzung die geltenden Normen und Gesetze.","Radix supporta il progetto ma non sostituisce l'analisi e la responsabilità tecnica del professionista abilitato. Verifica norme e leggi vigenti prima dell'uso.","يدعم Radix المشروع لكنه لا يحل محل تحليل المهني المؤهل ومسؤوليته الفنية. تحقق من المعايير والقوانين السارية قبل الاستخدام.","Radix 辅助项目工作，但不能取代执业专业人员的分析与技术责任。使用前请核对现行规范和法律。","Radix は設計を支援しますが、有資格の専門家による検討と技術的責任に代わるものではありません。使用前に現行の規格・法令をご確認ください。","Radix помогает в проектировании, но не заменяет анализ и техническую ответственность квалифицированного специалиста. Перед использованием проверьте действующие нормы и законы."],
+    khepri:["Khepri — aplicativo de projetos","Khepri — projects app","Khepri — aplicación de proyectos","Khepri — application de projets","Khepri — Projekte-App","Khepri — app di progetti","Khepri — تطبيق المشاريع","Khepri — 项目应用","Khepri — プロジェクトアプリ","Khepri — приложение для проектов"],
+    foot:["Idealizado e desenvolvido por Larissa Moura Nascimento — Arquiteta, Urbanista e Gestora Ambiental","Conceived and developed by Larissa Moura Nascimento — Architect, Urban Planner and Environmental Manager","Idealizado y desarrollado por Larissa Moura Nascimento — Arquitecta, Urbanista y Gestora Ambiental","Conçu et développé par Larissa Moura Nascimento — architecte, urbaniste et gestionnaire environnementale","Konzipiert und entwickelt von Larissa Moura Nascimento — Architektin, Stadtplanerin und Umweltmanagerin","Ideato e sviluppato da Larissa Moura Nascimento — architetta, urbanista e gestore ambientale","من فكرة وتطوير لاريسا مورا ناسيمنتو — مهندسة معمارية ومخططة عمرانية ومديرة بيئية","由 Larissa Moura Nascimento 构思并开发 — 建筑师、城市规划师、环境管理师","構想・開発：Larissa Moura Nascimento（建築家・都市計画家・環境管理者）","Идея и разработка: Larissa Moura Nascimento — архитектор, градостроитель и экологический менеджер"]
+  };
+
+  function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  function idioma(c) {
+    var i = L.indexOf(c);
+    if (i < 0) { i = 0; c = L[0]; }
+    document.documentElement.lang = c;
+    document.documentElement.dir = c === "ar" ? "rtl" : "ltr";
+    var els = document.querySelectorAll("[data-i]");
+    for (var n = 0; n < els.length; n++) {
+      var k = els[n].getAttribute("data-i");
+      if (T[k]) els[n].textContent = T[k][i];
+    }
+    document.getElementById("sel").value = c;
+    guardar("radix_site_lang", c);
+  }
+
+  function detectar() {
+    var s = ler("radix_site_lang");
+    if (s && L.indexOf(s) >= 0) return s;
+    var nav = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "pt-BR"]);
+    for (var n = 0; n < nav.length; n++) {
+      var p = String(nav[n]).toLowerCase().split("-")[0];
+      for (var j = 0; j < L.length; j++) if (L[j].toLowerCase().split("-")[0] === p) return L[j];
+    }
+    return "pt-BR";
+  }
+
+  function zoom(v) {
+    document.documentElement.style.fontSize = v + "%";
+    var z = document.getElementById("zoom");
+    z.value = v; z.setAttribute("aria-valuetext", v + "%");
+    document.getElementById("zout").textContent = v + "%";
+    guardar("radix_site_zoom", v);
+  }
+
+  document.getElementById("sel").addEventListener("change", function (e) { idioma(e.target.value); });
+  document.getElementById("zoom").addEventListener("input", function (e) { zoom(parseInt(e.target.value, 10)); });
+  idioma(detectar());
+  var z0 = parseInt(ler("radix_site_zoom") || "100", 10);
+  zoom(z0 >= 100 && z0 <= 200 ? z0 : 100);
+})();
+</script>
 </body>
 </html>
