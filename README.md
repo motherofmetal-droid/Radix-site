@@ -16,9 +16,9 @@ Publicado com GitHub Pages: https://motherofmetal-droid.github.io/Radix-site/
 |---------|--------|
 | `index.html` | Página inicial |
 | `404.html` | Página exibida quando o endereço não existe |
-| `radix-192.png` | Logo do Radix, usado como ícone da aba |
-| `radix-512.png` | Logo do Radix em alta resolução, usado nas páginas |
-| `khepri.png` | Símbolo do aplicativo Khepri, usado no link |
+| `radix 192.png` | Logo do Radix, usado como ícone da aba |
+| `radix 512.png` | Logo do Radix em alta resolução, usado nas páginas |
+| `khepri-512.png` | Símbolo do aplicativo Khepri, usado no link |
 
 ## Aplicativos relacionados
 
