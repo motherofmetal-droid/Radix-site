@@ -5,23 +5,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#2d5a27">
 <title>Página não encontrada — Radix</title>
-<link rel="icon" type="image/svg+xml" href="https://motherofmetal-droid.github.io/Radix-site/favicon.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="https://motherofmetal-droid.github.io/Radix-site/radix-192.png">
+<link rel="apple-touch-icon" href="https://motherofmetal-droid.github.io/Radix-site/radix-192.png">
 <style>
+  *{box-sizing:border-box}
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f6f3ec;color:#1d2a1b;text-align:center;padding:1.5rem}
-  main{max-width:480px}
+  .selo{position:absolute;top:1rem;left:1rem;display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:600;color:#1d2a1b}
+  .selo svg{display:block;width:28px;height:20px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+  main{max-width:480px;width:100%}
+  .logo{display:block;width:128px;height:128px;margin:0 auto 1rem;object-fit:contain}
   h1{font-size:4rem;margin:0;color:#2d5a27}
   p{color:#4b5563;line-height:1.6}
-  a{display:inline-block;margin:.4rem;padding:.75rem 1.3rem;border-radius:8px;background:#2d5a27;color:#fff;text-decoration:none;font-weight:600}
-  a:hover{background:#1f3f1b}
+  .botoes{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-top:1rem}
+  a.botao{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.3rem;border-radius:8px;background:#2d5a27;color:#fff;text-decoration:none;font-weight:600}
+  a.botao:hover{background:#1f3f1b}
+  a.botao.sec{background:#fff;color:#2d5a27;border:2px solid #2d5a27}
+  a.botao.sec:hover{background:#eef2ea}
+  a.botao img{width:24px;height:24px;object-fit:contain}
   a:focus-visible{outline:3px solid #e0a800;outline-offset:2px}
+  @media (max-width:420px){.selo{position:static;justify-content:center;margin-bottom:1rem}body{flex-direction:column}}
 </style>
 </head>
 <body>
+<div class="selo">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 70 49" role="img" aria-label="Bandeira do Brasil">
+    <rect width="70" height="49" fill="#009c3b"/>
+    <polygon points="35,4 66,24.5 35,45 4,24.5" fill="#ffdf00"/>
+    <circle cx="35" cy="24.5" r="10" fill="#002776"/>
+  </svg>
+  <span>Aplicativo Brasileiro</span>
+</div>
 <main>
+  <img class="logo" src="https://motherofmetal-droid.github.io/Radix-site/radix-512.png" alt="Radix" width="128" height="128" onerror="this.style.display='none'">
   <h1>404</h1>
   <p>Não encontramos esta página. O endereço pode ter mudado ou estar incorreto.</p>
-  <a href="https://motherofmetal-droid.github.io/Radix-site/">Voltar ao início</a>
+  <div class="botoes">
+    <a class="botao" href="https://motherofmetal-droid.github.io/Radix-site/">Voltar ao início</a>
+    <a class="botao sec" href="https://appkhepri.streamlit.app/?lang=pt" target="_blank" rel="noopener noreferrer">
+      <img src="https://motherofmetal-droid.github.io/Radix-site/khepri.png" alt="" onerror="this.style.display='none'">
+      <span>Conheça o Khepri</span>
+    </a>
+  </div>
 </main>
 </body>
 </html>
